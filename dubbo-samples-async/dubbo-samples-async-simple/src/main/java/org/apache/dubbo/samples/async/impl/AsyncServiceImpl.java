@@ -25,7 +25,7 @@ public class AsyncServiceImpl implements AsyncService {
 
     @Override
     public String sayHello(String name) {
-        System.out.println("async provider received: " + name);
+        System.out.println("async provider received: " + name + "，thread name: " + Thread.currentThread().getName());
         return "hello, " + name;
     }
 

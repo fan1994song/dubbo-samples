@@ -19,6 +19,7 @@
 
 package org.apache.dubbo.samples.generic.call;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
@@ -75,12 +76,13 @@ public class GenericCallConsumer {
         CountDownLatch latch = new CountDownLatch(1);
 
         CompletableFuture<String> future = RpcContext.getContext().getCompletableFuture();
+        System.err.println("消费端 invokeSayHelloAsync(future): " + JSON.toJSONString(future) + System.currentTimeMillis() + "线程:" + JSON.toJSONString(Thread.currentThread()));
         future.whenComplete((value, t) -> {
-            System.err.println("invokeSayHelloAsync(whenComplete): " + value);
+            System.err.println("invokeSayHelloAsync(whenComplete): " + System.currentTimeMillis() + value + "线程:"+ JSON.toJSONString(Thread.currentThread()));
             latch.countDown();
         });
 
-        System.err.println("invokeSayHelloAsync(return): " + result);
+        System.err.println("invokeSayHelloAsync(return): " + result + System.currentTimeMillis() + "线程:" + JSON.toJSONString(Thread.currentThread()));
         latch.await();
     }
 
@@ -88,6 +90,7 @@ public class GenericCallConsumer {
         CompletableFuture<Object> future = genericService.$invokeAsync("sayHelloAsync",
                 new String[]{"java.lang.String"}, new Object[]{"world"});
         CountDownLatch latch = new CountDownLatch(1);
+        System.err.println("消费端 invokeSayHelloAsync(future): " + JSON.toJSONString(future));
         future.whenComplete((value, t) -> {
             System.err.println("invokeAsyncSayHelloAsync(whenComplete): " + value);
             latch.countDown();

@@ -34,6 +34,7 @@ public class AsyncServiceImpl implements AsyncService {
 
     @Override
     public CompletableFuture<String> sayHello(String name) {
+        logger.info("consumer-key1 from attachment 调用sayHello线程名称:" + Thread.currentThread().getName());
         // If attachments and context are going to be used in the new thread, startAsync() and signalContextSwitch() must be called.
         // Otherwise, it is not necessary to call these two methods.
         AsyncContext asyncContext = RpcContext.startAsync();
@@ -42,7 +43,7 @@ public class AsyncServiceImpl implements AsyncService {
             RpcContextAttachment attachmentFromClient = RpcContext.getServerAttachment();
             RpcContextAttachment attachmentToClient = RpcContext.getServerContext();
             String received = (String) attachmentFromClient.getAttachment("consumer-key1");
-            logger.info("consumer-key1 from attachment: " + received);
+            logger.info("consumer-key1 from attachment: " + received + "提供者异步线程名称:" + Thread.currentThread().getName());
             attachmentToClient.setAttachment("server-key1", "server-" + received);
 
             received = (String) attachmentFromClient.getAttachment("filters");

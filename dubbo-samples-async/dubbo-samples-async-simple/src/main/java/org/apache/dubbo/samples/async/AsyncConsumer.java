@@ -38,7 +38,7 @@ public class AsyncConsumer {
         CompletableFuture<String> helloFuture = RpcContext.getContext().getCompletableFuture();
         helloFuture.whenComplete((retValue, exception) -> {
             if (exception == null) {
-                System.out.println("return value: " + retValue);
+                System.out.println("return value: " + retValue + "，thread name: " + Thread.currentThread().getName());
             } else {
                 exception.printStackTrace();
             }

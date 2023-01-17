@@ -30,7 +30,9 @@ public class CallbackConsumer {
         context.start();
 
         CallbackService callbackService = context.getBean("callbackService", CallbackService.class);
+        // 用普通服务提供者，同时指定回调实现，同时指 定key和对应的回调方法
         callbackService.addListener("foo.bar", msg -> System.out.println("callback:" + msg));
+        System.in.read();
     }
 
 }

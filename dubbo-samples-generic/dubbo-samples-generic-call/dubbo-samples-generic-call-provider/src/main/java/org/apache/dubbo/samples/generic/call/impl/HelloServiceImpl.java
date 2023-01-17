@@ -19,6 +19,7 @@
 
 package org.apache.dubbo.samples.generic.call.impl;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.dubbo.samples.generic.call.api.GenericType;
 import org.apache.dubbo.samples.generic.call.api.HelloService;
 import org.apache.dubbo.samples.generic.call.api.Person;
@@ -41,9 +42,16 @@ public class HelloServiceImpl implements HelloService {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.err.println("提供者 sayHelloAsync 执行完成,时间:" + System.currentTimeMillis() + "线程:" + JSON.toJSONString(Thread.currentThread()));
             future.complete("sayHelloAsync: " + name);
         }).start();
 
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.err.println("over over 时间:" + System.currentTimeMillis() + "线程:" + JSON.toJSONString(Thread.currentThread()));
         return future;
     }
 

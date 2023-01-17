@@ -42,7 +42,7 @@ public class AsyncConsumer {
         CompletableFuture<String> future = asyncService.sayHello("async call request");
         CountDownLatch latch = new CountDownLatch(1);
         future.whenComplete((v, t) -> {
-            System.out.println((String) RpcContext.getServerContext().getAttachment("server-key1"));
+            System.out.println((String) RpcContext.getServerContext().getAttachment("server-key1")+ "消费者异步响应线程名称:"+Thread.currentThread().getName());
             if (t != null) {
                 logger.warn("Exception: ", t);
             } else {
@@ -51,7 +51,7 @@ public class AsyncConsumer {
             latch.countDown();
         });
 
-        logger.info("Executed before response returns");
+        logger.info("Executed before response returns" + "消费者主线程名称:"+Thread.currentThread().getName());
         latch.await();
     }
 
